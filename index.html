@@ -1,11 +1,163 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Silahkan Daftar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #a8c9d3;           /* latar belakang biru pudar */
+      --card: #eef6f8;         /* panel putih kebiruan */
+      --border: #d9e7ed;       /* garis tepi input */
+      --text: #0b1520;         /* teks utama */
+      --muted: #5b6b77;        /* teks sekunder */
+      --primary: #86c6f6;      /* tombol utama */
+      --primary-600:#6bb9f2;   /* hover */
+      --primary-700:#59a9e6;   /* active */
+      --focus:#8ecdf9;         /* ring fokus */
+      --radius: 12px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:var(--bg);
+      display:grid;
+      place-items:center;
+    }
+
+    .card{
+      width:min(92vw, 460px);
+      background:var(--card);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:var(--radius);
+      box-shadow: 0 12px 28px rgba(2, 20, 31, .10), 0 2px 6px rgba(2, 20, 31, .06);
+      padding:32px 28px;
+    }
+
+    h1{
+      margin: 4px 0 18px;
+      font-size: clamp(20px, 2.2vw, 26px);
+      line-height:1.2;
+      text-align:center;
+      font-weight:800;
+    }
+
+    form{display:grid; gap:14px; margin-top:4px}
+
+    .field{display:grid}
+    .input{
+      appearance:none;
+      width:100%;
+      height:44px;
+      padding: 0 14px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:#fff;
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+      transition: box-shadow .15s ease, border-color .15s ease, transform .02s ease-in;
+    }
+    .input::placeholder{color:#95a8b5}
+    .input:focus{
+      border-color:var(--focus);
+      box-shadow:0 0 0 4px rgba(142,205,249,.35);
+    }
+
+    .btn{
+      margin-top:6px;
+      height:44px;
+      border:0;
+      border-radius:10px;
+      font-weight:700;
+      font-size:16px;
+      color:#fff;
+      background: linear-gradient(180deg, var(--primary), var(--primary-600));
+      cursor:pointer;
+      transition: transform .02s ease-in, filter .15s ease;
+    }
+    .btn:hover{ filter: brightness(1.05); }
+    .btn:active{ transform: translateY(1px); background: linear-gradient(180deg, var(--primary-600), var(--primary-700)); }
+    .btn:disabled{ opacity:.6; cursor:not-allowed }
+
+    .meta{
+      margin-top:8px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .meta a{
+      color:#155e9b;
+      text-decoration:none;
+      font-weight:700;
+    }
+    .meta a:hover{ text-decoration:underline; }
+
+    @media (prefers-reduced-motion: reduce){
+      .btn, .input{ transition:none }
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello 12 9</h1>
+  <main class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Silahkan Daftar</h1>
+
+    <form id="registerForm" novalidate>
+      <div class="field">
+        <input class="input" id="username" name="username" type="text" placeholder="Masukan username Anda" autocomplete="username" required aria-label="Username" />
+      </div>
+
+      <div class="field">
+        <input class="input" id="password" name="password" type="password" placeholder="Masukan password Anda" autocomplete="new-password" required aria-label="Password" />
+      </div>
+
+      <button class="btn" type="submit" id="submitBtn">Daftar</button>
+
+      <p class="meta">Sudah punya akun? <a href="#" id="toLogin" aria-label="Menuju halaman masuk">Masuk</a></p>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (!username.value.trim() || !password.value.trim()) {
+        alert('Mohon isi username dan password.');
+        return;
+      }
+      if (password.value.length < 6){
+        alert('Password minimal 6 karakter.');
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true; btn.textContent = 'Memproses…';
+
+      // Simulasi kirim data ke server — ganti dengan fetch ke endpoint API Anda
+      setTimeout(() => {
+        btn.disabled = false; btn.textContent = 'Daftar';
+        alert(`Akun untuk ${username.value} berhasil didaftarkan. (Contoh)`);
+        // window.location.href = 'login.html'; // arahkan ke halaman login bila sudah ada
+      }, 900);
+    });
+
+    document.getElementById('toLogin').addEventListener('click', (e) => {
+      e.preventDefault();
+      // Ganti dengan rute file Anda
+      // window.location.href = 'login.html';
+      alert('Tautan Masuk diklik. (Ganti dengan rute ke halaman login)');
+    });
+  </script>
 </body>
 </html>
